@@ -1,11 +1,12 @@
 import torch
 import torchvision
 from torchvision import datasets, transforms
+import torch.optim as optim
 import time 
-from nni.algorithms.compression.v2.pytorch.pruning.basic_pruner import L1NormPruner, FPGMPruner
-from nni.compression.pytorch import ModelSpeedup
-from mnist.main import Net
-
+from nni.algorithms.compression.pytorch.quantization import LsqQuantizer, QAT_Quantizer, BNNQuantizer
+from mnist.main import Net, train
+import argparse
+#from nni.compression.pytorch.quantization_speedup import ModelSpeedupTensorRT
 
 #tests model on the MNIST tests data and gives information on models accuracy and inference time. 
 def test(model):
@@ -46,34 +47,54 @@ def test(model):
 #pruning method and configs that will be run on base model
 modelParam = {
     'Model Base': {
-        'pruner': None,
+        'quantizer': None,
         'config_list': None, 
     },
     'Model 1': {
-        'pruner': L1NormPruner,
+        'quantizer': LsqQuantizer,
         'config_list': [{
-            'sparsity_per_layer': 0.2,
+            'quant_types': ['weight', 'input'],
+            'quant_bits': {'weight': 8, 'input': 8},
             'op_types': ['Conv2d']
         }] 
     },
     'Model 2': {
-        'pruner': L1NormPruner,
+        'quantizer': LsqQuantizer,
         'config_list': [{
-            'sparsity_per_layer': 0.7,
+            'quant_types': ['output'],
+            'quant_bits': {'output': 8},
             'op_types': ['Conv2d']
         }] 
     },
     'Model 3': {
-        'pruner': FPGMPruner,
+        'quantizer': QAT_Quantizer,
         'config_list': [{
-            'sparsity_per_layer': 0.2,
+            'quant_types': ['input', 'weight'],
+            'quant_bits': {'input': 8, 'weight': 8},
             'op_types': ['Conv2d']
         }] 
     },
     'Model 4': {
-        'pruner': FPGMPruner,
+        'quantizer': QAT_Quantizer,
         'config_list': [{
-            'sparsity_per_layer': 0.7,
+            'quant_types': ['output'],
+            'quant_bits': {'output': 8},
+            'op_types': ['Conv2d']
+        }] 
+    },
+    'Model 5': {
+        'quantizer': BNNQuantizer,
+        'config_list': [{
+            'quant_types': ['input', 'weight'],
+            'quant_bits': {'input': 8, 'weight': 8},
+            'op_types': ['Conv2d']
+        }] 
+    },
+    'Model 6': {
+        'quantizer': BNNQuantizer,
+        'config_list': [{
+            'quant_types': ['output'],
+            'quant_bits': {'output': 8},
             'op_types': ['Conv2d']
         }] 
     },
@@ -86,22 +107,59 @@ modelOutput = {
     'Model 2':None,
     'Model 3':None,
     'Model 4':None,
+    'Model 5':None,
+    'Model 6':None,
 
 }
 
-#Apply each pruning/config options in modelParam dictionary on pretrained mnist model.
+#training variables 
+parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
+parser.add_argument('--dry-run', action='store_true', default=False,
+                    help='quickly check a single pass')
+parser.add_argument('--log-interval', type=int, default=10, metavar='N',
+                    help='how many batches to wait before logging training status')
+args = parser.parse_args()
+
+#TODO: rerun model using cuda for speedup?
+device = torch.device("cpu")
+transform=transforms.Compose([
+    transforms.ToTensor(),
+    transforms.Normalize((0.1307,), (0.3081,))
+])
+dataset1 = datasets.MNIST('/mnt/beegfs/psengo/CSC791/P1/data', train=True, download=True,
+        transform=transform)
+train_loader = torch.utils.data.DataLoader(dataset1)
+
+#Apply each quantization/config options in modelParam dictionary on pretrained mnist model.
 for key, val in modelParam.items():  
     # define model and load pretrained MNIST model.
     model = Net()
     model.load_state_dict(torch.load("./pre-trained_model/mnist_cnn.pt"))
+    print(key)
     
-    #perform pruning on model
+    #perform quantization on model
     if key != 'Model Base':
-        pruner = val['pruner'](model = model, config_list =val['config_list'])
-        masked_model, masks = pruner.compress()
-        pruner._unwrap_model()
-        ModelSpeedup(model, torch.rand(1000, 1, 28, 28), masks).speedup_model()
+        print(model)
+        #Quantize model
+        optimizer = optim.Adadelta(model.parameters(), lr=1.0)
+        quantizer = val['quantizer'](model = model, config_list =val['config_list'], optimizer = optimizer)
+        quantizer.compress()
+        
+        #Fine tune model 
+        for epoch in range(3):
+            train(args, model, device, train_loader, optimizer, epoch)
+        
+        #Export model to get calibration config
+        model_path = "./log/mnist_model.pth"
+        calibration_path = "./log/mnist_calibration.pth"
+        calibration_config = quantizer.export_model(model_path, calibration_path)
 
+        #speedup model
+        #TODO change input shape
+        #input_shape = (1, 32, 3, 1)
+        #model = ModelSpeedupTensorRT(model, input_shape, config=calibration_config, batchsize=32)
+        #model.compress()
+        
     #get models outputs  
     modelOutput[key] = test(model)
 
@@ -109,28 +167,10 @@ for key, val in modelOutput.items():
     print()
     print(key + ":")
     if key != "Model Base":
-        print("Pruner Used: " + modelParam[key]['pruner'].__name__)
+        print("quantizer Used: " + modelParam[key]['quantizer'].__name__)
         print("Configurations Used: " + str(modelParam[key]['config_list']))
     print("Structure: ")
     print(val['model'])
     print("Accuracy: "+ str(val['Accuracy']))
     print("Inference Time: "+ str(val['Inference Time']))
 
-
-"""# define model and load pretrained MNIST model.
-model = Net()
-model.load_state_dict(torch.load("./pre-trained_model/mnist_cnn.pt"))
-test(model)
-
-#Model pruning  1
-config_list = [{
-    'sparsity_per_layer': 0.2,
-    'op_types': ['Conv2d']
-}]
-
-pruner = L1NormPruner(model = model, config_list =config_list)
-masked_model, masks = pruner.compress()
-pruner._unwrap_model()
-ModelSpeedup(model, torch.rand(1000, 1, 28, 28), masks).speedup_model()
-
-test(model)"""
