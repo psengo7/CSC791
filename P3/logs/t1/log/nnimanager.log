@@ -1,0 +1,123 @@
+[2022-10-19 07:25:30] INFO (NNIDataStore) Datastore initialization done
+[2022-10-19 07:25:30] INFO (RestServer) RestServer start
+[2022-10-19 07:25:30] INFO (RestServer) RestServer base port is 8080
+[2022-10-19 07:25:30] INFO (main) Rest server listening on: http://0.0.0.0:8080
+[2022-10-19 07:25:30] INFO (NNIManager) Starting experiment: clhodkua
+[2022-10-19 07:25:30] INFO (NNIManager) Setup training service...
+[2022-10-19 07:25:30] INFO (LocalTrainingService) Construct local machine training service.
+[2022-10-19 07:25:30] INFO (NNIManager) Setup tuner...
+[2022-10-19 07:25:31] INFO (NNIManager) Change NNIManager status from: INITIALIZED to: RUNNING
+[2022-10-19 07:25:31] INFO (NNIManager) Add event listeners
+[2022-10-19 07:25:31] INFO (LocalTrainingService) Run local machine training service.
+[2022-10-19 07:25:32] INFO (NNIManager) NNIManager received command from dispatcher: ID, 
+[2022-10-19 07:25:32] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 0, "parameter_source": "algorithm", "parameters": {"lr": 0.0012421449680844964, "batch_size": 250}, "parameter_index": 0}
+[2022-10-19 07:25:32] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 1, "parameter_source": "algorithm", "parameters": {"lr": 0.0006422917538414091, "batch_size": 50}, "parameter_index": 0}
+[2022-10-19 07:25:36] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 0,
+  hyperParameters: {
+    value: '{"parameter_id": 0, "parameter_source": "algorithm", "parameters": {"lr": 0.0012421449680844964, "batch_size": 250}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-19 07:25:36] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 1,
+  hyperParameters: {
+    value: '{"parameter_id": 1, "parameter_source": "algorithm", "parameters": {"lr": 0.0006422917538414091, "batch_size": 50}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-19 07:25:46] INFO (NNIManager) Trial job GgjGp status changed from WAITING to FAILED
+[2022-10-19 07:25:46] INFO (NNIManager) Trial job lRM6V status changed from WAITING to FAILED
+[2022-10-19 07:25:46] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 2, "parameter_source": "algorithm", "parameters": {"lr": 0.026023286620906066, "batch_size": 500}, "parameter_index": 0}
+[2022-10-19 07:25:46] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 3, "parameter_source": "algorithm", "parameters": {"lr": 0.0023542485316739113, "batch_size": 500}, "parameter_index": 0}
+[2022-10-19 07:25:51] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 2,
+  hyperParameters: {
+    value: '{"parameter_id": 2, "parameter_source": "algorithm", "parameters": {"lr": 0.026023286620906066, "batch_size": 500}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-19 07:25:51] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 3,
+  hyperParameters: {
+    value: '{"parameter_id": 3, "parameter_source": "algorithm", "parameters": {"lr": 0.0023542485316739113, "batch_size": 500}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-19 07:25:56] INFO (NNIManager) Trial job kiqvQ status changed from WAITING to FAILED
+[2022-10-19 07:25:56] INFO (NNIManager) Trial job rffDl status changed from WAITING to FAILED
+[2022-10-19 07:25:56] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 4, "parameter_source": "algorithm", "parameters": {"lr": 0.0027060923903558355, "batch_size": 250}, "parameter_index": 0}
+[2022-10-19 07:25:56] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 5, "parameter_source": "algorithm", "parameters": {"lr": 0.09982204692216598, "batch_size": 250}, "parameter_index": 0}
+[2022-10-19 07:26:01] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 4,
+  hyperParameters: {
+    value: '{"parameter_id": 4, "parameter_source": "algorithm", "parameters": {"lr": 0.0027060923903558355, "batch_size": 250}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-19 07:26:01] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 5,
+  hyperParameters: {
+    value: '{"parameter_id": 5, "parameter_source": "algorithm", "parameters": {"lr": 0.09982204692216598, "batch_size": 250}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-19 07:26:06] INFO (NNIManager) Trial job Vf9aL status changed from WAITING to FAILED
+[2022-10-19 07:26:06] INFO (NNIManager) Trial job kILZY status changed from WAITING to FAILED
+[2022-10-19 07:26:06] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 6, "parameter_source": "algorithm", "parameters": {"lr": 0.0003937528410501541, "batch_size": 50}, "parameter_index": 0}
+[2022-10-19 07:26:06] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 7, "parameter_source": "algorithm", "parameters": {"lr": 0.0028811041605224796, "batch_size": 500}, "parameter_index": 0}
+[2022-10-19 07:26:11] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 6,
+  hyperParameters: {
+    value: '{"parameter_id": 6, "parameter_source": "algorithm", "parameters": {"lr": 0.0003937528410501541, "batch_size": 50}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-19 07:26:11] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 7,
+  hyperParameters: {
+    value: '{"parameter_id": 7, "parameter_source": "algorithm", "parameters": {"lr": 0.0028811041605224796, "batch_size": 500}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-19 07:26:16] INFO (NNIManager) Trial job vzfVy status changed from WAITING to FAILED
+[2022-10-19 07:26:16] INFO (NNIManager) Trial job tLhkc status changed from WAITING to FAILED
+[2022-10-19 07:26:16] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 8, "parameter_source": "algorithm", "parameters": {"lr": 0.003280493496822849, "batch_size": 50}, "parameter_index": 0}
+[2022-10-19 07:26:16] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 9, "parameter_source": "algorithm", "parameters": {"lr": 0.006367930573482403, "batch_size": 250}, "parameter_index": 0}
+[2022-10-19 07:26:21] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 8,
+  hyperParameters: {
+    value: '{"parameter_id": 8, "parameter_source": "algorithm", "parameters": {"lr": 0.003280493496822849, "batch_size": 50}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-19 07:26:21] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 9,
+  hyperParameters: {
+    value: '{"parameter_id": 9, "parameter_source": "algorithm", "parameters": {"lr": 0.006367930573482403, "batch_size": 250}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-19 07:26:26] INFO (NNIManager) Trial job yFP3x status changed from WAITING to FAILED
+[2022-10-19 07:26:26] INFO (NNIManager) Trial job eWGgH status changed from WAITING to FAILED
+[2022-10-19 07:26:26] INFO (NNIManager) Change NNIManager status from: RUNNING to: NO_MORE_TRIAL
+[2022-10-19 07:26:26] INFO (NNIManager) Change NNIManager status from: NO_MORE_TRIAL to: DONE
+[2022-10-19 07:26:26] INFO (NNIManager) Experiment done.
+[2022-10-19 07:26:31] INFO (NNIManager) Change NNIManager status from: DONE to: STOPPING
+[2022-10-19 07:26:31] INFO (NNIManager) Stopping experiment, cleaning up ...
+[2022-10-19 07:26:34] INFO (LocalTrainingService) Stopping local machine training service...
+[2022-10-19 07:26:34] INFO (NNIManager) Change NNIManager status from: STOPPING to: STOPPED
+[2022-10-19 07:26:34] INFO (NNIManager) Experiment stopped.
+[2022-10-19 07:26:34] INFO (NNITensorboardManager) Forced stopping all tensorboard task.
+[2022-10-19 07:26:34] INFO (NNITensorboardManager) All tensorboard task stopped.
+[2022-10-19 07:26:34] INFO (NNITensorboardManager) Tensorboard manager stopped.
