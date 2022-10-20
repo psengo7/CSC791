@@ -59,9 +59,9 @@ for key, val in TunerParam.items():
     experiment = Experiment('local')
 
     #configure trial code
-    experiment.config.trial_command = 'python3 main.py'
+    experiment.config.trial_command = 'python ./mnist/main.py'
     experiment.config.trial_code_directory = '.'
-
+    
     #configure search space
     experiment.config.search_space = search_space
 
@@ -70,11 +70,12 @@ for key, val in TunerParam.items():
     experiment.config.tuner.class_args = val['config_list']
 
     #configure trials to run
-    experiment.config.max_trial_number = 2
-    experiment.config.trial_concurrency = 2
+    experiment.config.max_trial_number = 1
+    experiment.config.trial_concurrency = 1
 
     #run experiment
     experiment.run(8080)
     
     #pause and wait for user input to run next experiment
-    input("Press any button for next Tuner experiment: ")
+    #input("Press any button for next Tuner experiment: ")
+    experiment.stop()

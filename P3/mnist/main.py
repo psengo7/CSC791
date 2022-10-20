@@ -133,9 +133,9 @@ def main():
         transforms.ToTensor(),
         transforms.Normalize((0.1307,), (0.3081,))
         ])
-    dataset1 = datasets.MNIST('/mnt/beegfs/psengo/CSC791/P1/data', train=True, download=True,
+    dataset1 = datasets.MNIST('/ocean/projects/cis220070p/psengo/data', train=True, download=True,
                        transform=transform)
-    dataset2 = datasets.MNIST('/mnt/beegfs/psengo/CSC791/P1/data', train=False,
+    dataset2 = datasets.MNIST('/ocean/projects/cis220070p/psengo/data', train=False,
                        transform=transform)
     train_loader = torch.utils.data.DataLoader(dataset1,**train_kwargs)
     test_loader = torch.utils.data.DataLoader(dataset2, **test_kwargs)
