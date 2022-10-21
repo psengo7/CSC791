@@ -1,50 +1,58 @@
 from nni.experiment import Experiment
 
-#Tuners and configurations
-TunerParamFull = {
-    'Tuner 1': {
-        'tuner': 'TPE',
+#Tuners and configurations - Evolution, GP, Hyperband
+
+TunerParam = {
+    #low evolution performance
+    'Evolution[Pop_Size = 5]': {
+        'tuner': 'Evolution',
         'config_list': {
-            'optimize_mode': 'maximize',
+            'population_size': 5,
         } 
     },
-    'Tuner 2': {
-        'tuner': 'SMAC',
+    #better evolution performance
+    'Evolution[Pop_Size = 100]': {
+        'tuner': 'Evolution',
         'config_list': {
-            'optimize_mode': 'maximize',
+            'population_size': 100,
         }
     },
-    'Tuner 3': {
-        'tuner': 'Metis',
+    #average exploration
+    'GP[kappa: 5.0]': {
+        'tuner': 'GP',
         'config_list': {
-            'optimize_mode': 'maximize',
-        } 
-    },'Tuner 4': {
-        'tuner': 'TPE',
-        'config_list': {
-            'optimize_mode': 'minimize',
+            'kappa': 5.0,
         } 
     },
-    'Tuner 5': {
-        'tuner': 'SMAC',
+    #high exploration
+    'GP[kappa: 20.0]': {
+        'tuner': 'GP',
         'config_list': {
-            'optimize_mode': 'minimize',
+            'kappa': 20.0,
+        } 
+    },
+    #average amount of config survive per round
+    'Hyperband[eta = 2]': {
+        'tuner': 'Hyperband',
+        'config_list': {
+            'eta': 2,
         }
     },
-    'Tuner 6': {
-        'tuner': 'Metis',
+    #less config survive per round
+    'Hyperband[eta = 10]': {
+        'tuner': 'Hyperband',
         'config_list': {
-            'optimize_mode': 'minimize',
+            'eta': 10,
         } 
     },
 }
 
-TunerParam = {
-    'Tuner 1': {
-        'tuner': 'TPE',
+TunerParamTest = {
+    'Tuner 5': {
+        'tuner': 'Hyperband',
         'config_list': {
-            'optimize_mode': 'maximize',
-        } 
+            'optimize_mode': 'minimize',
+        }
     }
 }
 
@@ -59,8 +67,9 @@ for key, val in TunerParam.items():
     experiment = Experiment('local')
 
     #configure trial code
-    experiment.config.trial_command = 'python ./mnist/main.py'
+    experiment.config.trial_command = 'python main.py'
     experiment.config.trial_code_directory = '.'
+    experiment.config.experiment_name = key
     
     #configure search space
     experiment.config.search_space = search_space
@@ -70,11 +79,11 @@ for key, val in TunerParam.items():
     experiment.config.tuner.class_args = val['config_list']
 
     #configure trials to run
-    experiment.config.max_trial_number = 1
-    experiment.config.trial_concurrency = 1
+    experiment.config.max_trial_number = 15
+    experiment.config.trial_concurrency = 20
 
     #run experiment
-    experiment.run(8080)
+    experiment.run(8091)
     
     #pause and wait for user input to run next experiment
     #input("Press any button for next Tuner experiment: ")

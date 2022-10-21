@@ -16,8 +16,5 @@ conda activate csc791
 #change directory to current project
 cd /jet/home/psengo/CSC791/P3
 
-#install requirements for conda
-#pip3 install -r ../requirements.txt
-
 #run program
-python3 modelHPO.py
+python modelHPO.py
