@@ -1,0 +1,15 @@
+ME000101{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 0, "value": "0.8936"}
+ME000101{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 1, "value": "0.9148"}
+ME000101{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 2, "value": "0.9227"}
+ME000101{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 3, "value": "0.9248"}
+ME000101{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 4, "value": "0.9288"}
+ME000101{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 5, "value": "0.9311"}
+ME000101{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 6, "value": "0.9321"}
+ME000101{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 7, "value": "0.9325"}
+ME000101{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 8, "value": "0.9333"}
+ME000101{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 9, "value": "0.9339"}
+ME000102{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 10, "value": "0.9337"}
+ME000102{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 11, "value": "0.9342"}
+ME000102{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 12, "value": "0.9343"}
+ME000102{"parameter_id": 9, "trial_job_id": "Votyq", "type": "PERIODICAL", "sequence": 13, "value": "0.9344"}
+ME000096{"parameter_id": 9, "trial_job_id": "Votyq", "type": "FINAL", "sequence": 0, "value": "0.9344"}

@@ -1,0 +1,13 @@
+[2022-10-21 23:05:14] INFO (nni.runtime.msg_dispatcher_base/MainThread) Dispatcher started
+[2022-10-21 23:12:32] INFO (nni.algorithms.hpo.evolution_tuner/Thread-2 (command_queue_worker)) trial (7) end
+[2022-10-21 23:12:32] INFO (nni.algorithms.hpo.evolution_tuner/Thread-2 (command_queue_worker)) trial (8) end
+[2022-10-21 23:12:43] INFO (nni.algorithms.hpo.evolution_tuner/Thread-2 (command_queue_worker)) trial (9) end
+[2022-10-21 23:12:48] INFO (nni.algorithms.hpo.evolution_tuner/Thread-2 (command_queue_worker)) trial (6) end
+[2022-10-21 23:12:53] INFO (nni.algorithms.hpo.evolution_tuner/Thread-2 (command_queue_worker)) trial (1) end
+[2022-10-21 23:12:53] INFO (nni.algorithms.hpo.evolution_tuner/Thread-2 (command_queue_worker)) trial (4) end
+[2022-10-21 23:13:08] INFO (nni.algorithms.hpo.evolution_tuner/Thread-2 (command_queue_worker)) trial (0) end
+[2022-10-21 23:13:13] INFO (nni.algorithms.hpo.evolution_tuner/Thread-2 (command_queue_worker)) trial (2) end
+[2022-10-21 23:13:13] INFO (nni.algorithms.hpo.evolution_tuner/Thread-2 (command_queue_worker)) trial (3) end
+[2022-10-21 23:13:13] INFO (nni.algorithms.hpo.evolution_tuner/Thread-2 (command_queue_worker)) trial (5) end
+[2022-10-21 23:13:14] INFO (nni.runtime.msg_dispatcher_base/MainThread) Dispatcher exiting...
+[2022-10-21 23:13:16] INFO (nni.runtime.msg_dispatcher_base/MainThread) Dispatcher terminiated

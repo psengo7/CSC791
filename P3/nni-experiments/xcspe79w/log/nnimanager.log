@@ -1,0 +1,220 @@
+[2022-10-21 23:27:58] INFO (main) Start NNI manager
+[2022-10-21 23:27:58] INFO (NNIDataStore) Datastore initialization done
+[2022-10-21 23:27:58] INFO (RestServer) Starting REST server at port 8086, URL prefix: "/"
+[2022-10-21 23:27:58] WARNING (NNITensorboardManager) Tensorboard may not installed, if you want to use tensorboard, please check if tensorboard installed.
+[2022-10-21 23:27:58] INFO (RestServer) REST server started.
+[2022-10-21 23:27:58] INFO (NNIManager) Starting experiment: xcspe79w
+[2022-10-21 23:27:58] INFO (NNIManager) Setup training service...
+[2022-10-21 23:27:58] INFO (LocalTrainingService) Construct local machine training service.
+[2022-10-21 23:27:58] INFO (NNIManager) Setup tuner...
+[2022-10-21 23:27:58] INFO (NNIManager) Change NNIManager status from: INITIALIZED to: RUNNING
+[2022-10-21 23:27:59] INFO (NNIManager) Add event listeners
+[2022-10-21 23:27:59] INFO (LocalTrainingService) Run local machine training service.
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: ID, 
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 0, "parameter_source": "algorithm", "parameters": {"lr": 0.0003880497983749697, "batch_size": 500}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 1, "parameter_source": "algorithm", "parameters": {"lr": 0.0013438845814726691, "batch_size": 500}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 2, "parameter_source": "algorithm", "parameters": {"lr": 0.09394110289025963, "batch_size": 50}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 3, "parameter_source": "algorithm", "parameters": {"lr": 0.00012211481794431383, "batch_size": 250}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 4, "parameter_source": "algorithm", "parameters": {"lr": 0.0037492658023857506, "batch_size": 250}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 5, "parameter_source": "algorithm", "parameters": {"lr": 0.00038655746564694526, "batch_size": 500}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 6, "parameter_source": "algorithm", "parameters": {"lr": 0.0004807174294705714, "batch_size": 500}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 7, "parameter_source": "algorithm", "parameters": {"lr": 0.0015385422174837814, "batch_size": 500}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 8, "parameter_source": "algorithm", "parameters": {"lr": 0.09443773584855782, "batch_size": 50}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 9, "parameter_source": "algorithm", "parameters": {"lr": 0.021046386534735163, "batch_size": 500}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 10, "parameter_source": "algorithm", "parameters": {"lr": 0.00015302546611440745, "batch_size": 500}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 11, "parameter_source": "algorithm", "parameters": {"lr": 0.00011940785055479656, "batch_size": 50}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 12, "parameter_source": "algorithm", "parameters": {"lr": 0.0025258106631075284, "batch_size": 50}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 13, "parameter_source": "algorithm", "parameters": {"lr": 0.007449130898458975, "batch_size": 250}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 14, "parameter_source": "algorithm", "parameters": {"lr": 0.0831879657082023, "batch_size": 500}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 15, "parameter_source": "algorithm", "parameters": {"lr": 0.0005285911009751565, "batch_size": 50}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 16, "parameter_source": "algorithm", "parameters": {"lr": 0.00022288704605215537, "batch_size": 250}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 17, "parameter_source": "algorithm", "parameters": {"lr": 0.01009063809266983, "batch_size": 500}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 18, "parameter_source": "algorithm", "parameters": {"lr": 0.0001691095401732117, "batch_size": 500}, "parameter_index": 0}
+[2022-10-21 23:27:59] INFO (NNIManager) NNIManager received command from dispatcher: TR, {"parameter_id": 19, "parameter_source": "algorithm", "parameters": {"lr": 0.003026921560569344, "batch_size": 50}, "parameter_index": 0}
+[2022-10-21 23:28:04] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 0,
+  hyperParameters: {
+    value: '{"parameter_id": 0, "parameter_source": "algorithm", "parameters": {"lr": 0.0003880497983749697, "batch_size": 500}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-21 23:28:04] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 1,
+  hyperParameters: {
+    value: '{"parameter_id": 1, "parameter_source": "algorithm", "parameters": {"lr": 0.0013438845814726691, "batch_size": 500}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-21 23:28:04] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 2,
+  hyperParameters: {
+    value: '{"parameter_id": 2, "parameter_source": "algorithm", "parameters": {"lr": 0.09394110289025963, "batch_size": 50}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-21 23:28:04] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 3,
+  hyperParameters: {
+    value: '{"parameter_id": 3, "parameter_source": "algorithm", "parameters": {"lr": 0.00012211481794431383, "batch_size": 250}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-21 23:28:04] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 4,
+  hyperParameters: {
+    value: '{"parameter_id": 4, "parameter_source": "algorithm", "parameters": {"lr": 0.0037492658023857506, "batch_size": 250}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-21 23:28:04] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 5,
+  hyperParameters: {
+    value: '{"parameter_id": 5, "parameter_source": "algorithm", "parameters": {"lr": 0.00038655746564694526, "batch_size": 500}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-21 23:28:04] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 6,
+  hyperParameters: {
+    value: '{"parameter_id": 6, "parameter_source": "algorithm", "parameters": {"lr": 0.0004807174294705714, "batch_size": 500}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-21 23:28:04] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 7,
+  hyperParameters: {
+    value: '{"parameter_id": 7, "parameter_source": "algorithm", "parameters": {"lr": 0.0015385422174837814, "batch_size": 500}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-21 23:28:04] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 8,
+  hyperParameters: {
+    value: '{"parameter_id": 8, "parameter_source": "algorithm", "parameters": {"lr": 0.09443773584855782, "batch_size": 50}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-21 23:28:04] INFO (NNIManager) submitTrialJob: form: {
+  sequenceId: 9,
+  hyperParameters: {
+    value: '{"parameter_id": 9, "parameter_source": "algorithm", "parameters": {"lr": 0.021046386534735163, "batch_size": 500}, "parameter_index": 0}',
+    index: 0
+  },
+  placementConstraint: { type: 'None', gpus: [] }
+}
+[2022-10-21 23:28:09] INFO (NNIManager) Trial job yC47T status changed from WAITING to RUNNING
+[2022-10-21 23:28:09] INFO (NNIManager) Trial job RTB6r status changed from WAITING to RUNNING
+[2022-10-21 23:28:09] INFO (NNIManager) Trial job j34AC status changed from WAITING to RUNNING
+[2022-10-21 23:28:09] INFO (NNIManager) Trial job yusfL status changed from WAITING to RUNNING
+[2022-10-21 23:28:09] INFO (NNIManager) Trial job Q3cRG status changed from WAITING to RUNNING
+[2022-10-21 23:28:09] INFO (NNIManager) Trial job vA2Mu status changed from WAITING to RUNNING
+[2022-10-21 23:28:10] INFO (NNIManager) Trial job RxIwk status changed from WAITING to RUNNING
+[2022-10-21 23:28:10] INFO (NNIManager) Trial job mufzY status changed from WAITING to RUNNING
+[2022-10-21 23:28:10] INFO (NNIManager) Change NNIManager status from: RUNNING to: NO_MORE_TRIAL
+[2022-10-21 23:28:15] INFO (NNIManager) Trial job A4rbc status changed from WAITING to RUNNING
+[2022-10-21 23:28:15] INFO (NNIManager) Trial job Votyq status changed from WAITING to RUNNING
+[2022-10-21 23:34:14] INFO (NNIManager) Trial job RTB6r status changed from RUNNING to SUCCEEDED
+[2022-10-21 23:34:19] INFO (NNIManager) Trial job yC47T status changed from RUNNING to SUCCEEDED
+[2022-10-21 23:34:25] INFO (NNIManager) Trial job yusfL status changed from RUNNING to SUCCEEDED
+[2022-10-21 23:34:25] INFO (NNIManager) Trial job RxIwk status changed from RUNNING to SUCCEEDED
+[2022-10-21 23:34:25] INFO (NNIManager) Trial job Votyq status changed from RUNNING to SUCCEEDED
+[2022-10-21 23:34:30] INFO (NNIManager) Trial job Q3cRG status changed from RUNNING to SUCCEEDED
+[2022-10-21 23:34:30] INFO (NNIManager) Trial job mufzY status changed from RUNNING to SUCCEEDED
+[2022-10-21 23:34:35] INFO (NNIManager) Trial job vA2Mu status changed from RUNNING to SUCCEEDED
+[2022-10-21 23:34:50] INFO (NNIManager) Trial job j34AC status changed from RUNNING to SUCCEEDED
+[2022-10-21 23:34:50] INFO (NNIManager) Trial job A4rbc status changed from RUNNING to SUCCEEDED
+[2022-10-21 23:34:50] INFO (NNIManager) Change NNIManager status from: NO_MORE_TRIAL to: DONE
+[2022-10-21 23:34:50] INFO (NNIManager) Experiment done.
+[2022-10-21 23:34:59] INFO (ShutdownManager) Initiate shutdown: REST request
+[2022-10-21 23:34:59] INFO (RestServer) Stopping REST server.
+[2022-10-21 23:34:59] INFO (NNIManager) Change NNIManager status from: DONE to: STOPPING
+[2022-10-21 23:34:59] INFO (NNIManager) Stopping experiment, cleaning up ...
+[2022-10-21 23:35:01] INFO (RestServer) REST server stopped.
+[2022-10-21 23:35:02] INFO (LocalTrainingService) Stopping local machine training service...
+[2022-10-21 23:35:02] INFO (NNIManager) Change NNIManager status from: STOPPING to: STOPPED
+[2022-10-21 23:35:02] INFO (NNIManager) Experiment stopped.
+[2022-10-21 23:35:02] INFO (NNITensorboardManager) Forced stopping all tensorboard task.
+[2022-10-21 23:35:02] INFO (NNITensorboardManager) All tensorboard task stopped.
+[2022-10-21 23:35:02] INFO (NNITensorboardManager) Tensorboard manager stopped.
+[2022-10-21 23:35:02] INFO (ShutdownManager) Shutdown complete.
+[2022-10-22 11:19:01] INFO (main) Start NNI manager
+[2022-10-22 11:19:01] INFO (NNIDataStore) Datastore initialization done
+[2022-10-22 11:19:01] INFO (RestServer) Starting REST server at port 8087, URL prefix: "/"
+[2022-10-22 11:19:01] WARNING (NNITensorboardManager) Tensorboard may not installed, if you want to use tensorboard, please check if tensorboard installed.
+[2022-10-22 11:19:01] INFO (RestServer) REST server started.
+[2022-10-22 11:19:02] INFO (NNIManager) Resuming experiment: xcspe79w
+[2022-10-22 11:19:02] INFO (NNIManager) Setup training service...
+[2022-10-22 11:19:02] INFO (LocalTrainingService) Construct local machine training service.
+[2022-10-22 11:19:02] INFO (NNIManager) Change NNIManager status from: INITIALIZED to: VIEWED
+[2022-10-22 11:19:15] INFO (ShutdownManager) Initiate shutdown: REST request
+[2022-10-22 11:19:15] INFO (RestServer) Stopping REST server.
+[2022-10-22 11:19:15] INFO (NNIManager) Change NNIManager status from: VIEWED to: STOPPING
+[2022-10-22 11:19:15] INFO (NNIManager) Stopping experiment, cleaning up ...
+[2022-10-22 11:19:15] ERROR (NNIManager) Tuner has not been setup
+[2022-10-22 11:19:15] INFO (LocalTrainingService) Stopping local machine training service...
+[2022-10-22 11:19:15] INFO (NNIManager) Change NNIManager status from: STOPPING to: STOPPED
+[2022-10-22 11:19:15] INFO (NNIManager) Experiment stopped.
+[2022-10-22 11:19:15] INFO (NNITensorboardManager) Forced stopping all tensorboard task.
+[2022-10-22 11:19:15] INFO (NNITensorboardManager) All tensorboard task stopped.
+[2022-10-22 11:19:15] INFO (NNITensorboardManager) Tensorboard manager stopped.
+[2022-10-22 11:19:18] ERROR (NNIRestHandler) Error: SQLITE_MISUSE: Database is closed
+    at Database.all (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/sqlite3/lib/sqlite3.js:19:27)
+    at SqlDB.queryTrialJobEvent (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/core/sqlDatabase.js:171:17)
+    at NNIDataStore.queryTrialJobs (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/core/nniDataStore.js:202:46)
+    at NNIDataStore.listTrialJobs (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/core/nniDataStore.js:119:21)
+    at NNIManager.listTrialJobs (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/core/nnimanager.js:344:31)
+    at /ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/rest_server/restHandler.js:210:29
+    at Layer.handle [as handle_request] (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/express/lib/router/layer.js:95:5)
+    at next (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/express/lib/router/layer.js:95:5) {
+  errno: 21,
+  code: 'SQLITE_MISUSE'
+}
+[2022-10-22 11:19:18] ERROR (NNIRestHandler) Error: SQLITE_MISUSE: Database is closed
+    at Database.all (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/sqlite3/lib/sqlite3.js:19:27)
+    at SqlDB.queryMetricData (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/core/sqlDatabase.js:205:17)
+    at NNIDataStore.getMetricData (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/core/nniDataStore.js:147:24)
+    at NNIManager.getMetricData (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/core/nnimanager.js:306:31)
+    at /ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/rest_server/restHandler.js:250:29
+    at Layer.handle [as handle_request] (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/express/lib/router/layer.js:95:5)
+    at next (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/express/lib/router/route.js:137:13)
+    at Route.dispatch (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/express/lib/router/route.js:112:3)
+    at Layer.handle [as handle_request] (/ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/express/lib/router/layer.js:95:5)
+    at /ocean/projects/cis220070p/psengo/.conda/envs/csc791/lib/python3.10/site-packages/nni_node/node_modules/express/lib/router/index.js:281:22 {
+  errno: 21,
+  code: 'SQLITE_MISUSE'
+}
+[2022-10-22 11:19:24] INFO (RestServer) REST server stopped.
+[2022-10-22 11:19:24] INFO (ShutdownManager) Shutdown complete.
+[2022-10-22 11:29:22] INFO (main) Start NNI manager
+[2022-10-22 11:29:22] INFO (NNIDataStore) Datastore initialization done
+[2022-10-22 11:29:22] INFO (RestServer) Starting REST server at port 8087, URL prefix: "/"
+[2022-10-22 11:29:22] WARNING (NNITensorboardManager) Tensorboard may not installed, if you want to use tensorboard, please check if tensorboard installed.
+[2022-10-22 11:29:22] INFO (RestServer) REST server started.
+[2022-10-22 11:29:22] INFO (NNIManager) Resuming experiment: xcspe79w
+[2022-10-22 11:29:22] INFO (NNIManager) Setup training service...
+[2022-10-22 11:29:22] INFO (LocalTrainingService) Construct local machine training service.
+[2022-10-22 11:29:22] INFO (NNIManager) Change NNIManager status from: INITIALIZED to: VIEWED
+[2022-10-22 11:32:19] INFO (ShutdownManager) Initiate shutdown: REST request
+[2022-10-22 11:32:19] INFO (RestServer) Stopping REST server.
+[2022-10-22 11:32:19] INFO (NNIManager) Change NNIManager status from: VIEWED to: STOPPING
+[2022-10-22 11:32:19] INFO (NNIManager) Stopping experiment, cleaning up ...
+[2022-10-22 11:32:19] ERROR (NNIManager) Tuner has not been setup
+[2022-10-22 11:32:19] INFO (LocalTrainingService) Stopping local machine training service...
+[2022-10-22 11:32:19] INFO (RestServer) REST server stopped.
+[2022-10-22 11:32:19] INFO (NNIManager) Change NNIManager status from: STOPPING to: STOPPED
+[2022-10-22 11:32:19] INFO (NNIManager) Experiment stopped.
+[2022-10-22 11:32:19] INFO (NNITensorboardManager) Forced stopping all tensorboard task.
+[2022-10-22 11:32:19] INFO (NNITensorboardManager) All tensorboard task stopped.
+[2022-10-22 11:32:19] INFO (NNITensorboardManager) Tensorboard manager stopped.
+[2022-10-22 11:32:19] INFO (ShutdownManager) Shutdown complete.

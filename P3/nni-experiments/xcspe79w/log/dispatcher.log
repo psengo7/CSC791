@@ -1,0 +1,4 @@
+[2022-10-21 23:27:59] INFO (nni.tuner.tpe/MainThread) Using random seed 329134170
+[2022-10-21 23:27:59] INFO (nni.runtime.msg_dispatcher_base/MainThread) Dispatcher started
+[2022-10-21 23:34:59] INFO (nni.runtime.msg_dispatcher_base/MainThread) Dispatcher exiting...
+[2022-10-21 23:35:01] INFO (nni.runtime.msg_dispatcher_base/MainThread) Dispatcher terminiated

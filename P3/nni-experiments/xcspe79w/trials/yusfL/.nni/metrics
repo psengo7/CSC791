@@ -1,0 +1,15 @@
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 0, "value": "0.1771"}
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 1, "value": "0.2204"}
+ME000100{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 2, "value": "0.248"}
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 3, "value": "0.2694"}
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 4, "value": "0.2886"}
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 5, "value": "0.3026"}
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 6, "value": "0.3108"}
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 7, "value": "0.3189"}
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 8, "value": "0.3236"}
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 9, "value": "0.3265"}
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 10, "value": "0.328"}
+ME000102{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 11, "value": "0.3303"}
+ME000101{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 12, "value": "0.331"}
+ME000102{"parameter_id": 3, "trial_job_id": "yusfL", "type": "PERIODICAL", "sequence": 13, "value": "0.3316"}
+ME000096{"parameter_id": 3, "trial_job_id": "yusfL", "type": "FINAL", "sequence": 0, "value": "0.3316"}
