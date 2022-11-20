@@ -20,11 +20,14 @@
 1. Open bridges cluster and clone git repository. 
 2. Move the nni-experiments folder to the top level directory
 
-To rerun hyperparameter optimizations: 
+**To rerun hyperparameter optimizations:** 
+
 3. run "sbatch job-proj3" in login node
 
-To View results
+**To View results:**
+
 3. In login node run "module load anaconda3"
 4. In login node run "conda activate csc791"
 5. In login node run "python view.py"
+
 NOTE: to show next experiment you need to press "CTRL+C" to terminate current browser and continue program to next browser. 
