@@ -5,3 +5,6 @@ numpy
 pandas
 argparse
 xgboost
+basicsr
+facexlib
+gfpgan
