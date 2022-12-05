@@ -7,4 +7,18 @@
 # TODO
 * Test pruning method
 * Finish results method
-*  
+* Move dataset download location for dataloader to be user specified
+
+# Things Tried:
+REAL-ERSGAN 
+* L1Norm pruning (failed due to taking too long 1+ day)
+* Level Pruning (Failed as program stated there is no mask - might be due to issues with nni wrapping objects)
+* RDN (64, 128, 3, 3)
+
+# Model Testing: 
+* run original model and see if super resolution actually occurs
+* convert original model to onnx and try on xgen to see if speed test work
+* run model with pruning and see if pruning can occur. 
+
+
+https://github.com/Lornatang/SRCNN-PyTorch

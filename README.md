@@ -15,4 +15,4 @@ All unit projects for this class are listed below:
 * cancel node
     * scancel <slurm-id>  
 * send batch job
-    * sbatch job-proj3
+    * sbatch job-proj -t 10:00:00

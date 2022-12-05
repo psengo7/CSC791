@@ -8,3 +8,4 @@ xgboost
 basicsr
 facexlib
 gfpgan
+torchsr
