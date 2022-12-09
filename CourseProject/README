@@ -3,6 +3,11 @@
 
 
 # HOW TO RUN PROGRAM: 
+* use optimization to take pre-trained model and apply pruning or quantization: 
+* retrain the new model using SRCNN train method
+* test the model using SRCNN Test method
+* try inference using SRCNN inference method
+* save model to onnx using optimize.py
 
 # TODO
 * Test pruning method

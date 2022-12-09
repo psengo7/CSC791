@@ -25,10 +25,26 @@ from torchmetrics import PeakSignalNoiseRatio
 from torchsr.datasets import Div2K
 from basicsr.archs.rrdbnet_arch import RRDBNet
 from torchsr.models import rdn
-from models import SRCNN
+from model import SRCNN
 #https://github.com/Coloquinte/torchSR
+#train method
+import os
+import shutil
+import time
+from enum import Enum
 
-#from Real_ESRGAN.realesrgan.models.realesrgan_model import RealESRGANModel
+import torch
+from torch import nn
+from torch import optim
+from torch.cuda import amp
+from torch.utils.data import DataLoader
+from torch.utils.tensorboard import SummaryWriter
+
+import config
+from dataset import CUDAPrefetcher, TrainValidImageDataset, TestImageDataset
+from image_quality_assessment import PSNR, SSIM
+from model import SRCNN
+from srcnn-pytorch.config import config
 
 #HELPER METHODS
 def exportOnnx(model, model_param):
@@ -47,11 +63,33 @@ def exportOnnx(model, model_param):
                       output_names = ['output'],
                     )
     
-#onnx file to pytorch model
-def importOnnx(filename):
-    onnx_model = onnx.load(filename)
-    model = convert(onnx_model)
-    return model 
+def loadModel(model):
+    optimizer = optim.SGD([{"params": model.features.parameters()},
+                           {"params": model.map.parameters()},
+                           {"params": model.reconstruction.parameters(), "lr": config.model_lr * 0.1}],
+                          lr=config.model_lr,
+                          momentum=config.model_momentum,
+                          weight_decay=config.model_weight_decay,
+                          nesterov=config.model_nesterov)
+    #Load checkpoint model
+    checkpoint = torch.load(config.resume, map_location=lambda storage, loc: storage)
+    # Restore the parameters in the training node to this point
+    start_epoch = checkpoint["epoch"]
+    best_psnr = checkpoint["best_psnr"]
+    best_ssim = checkpoint["best_ssim"]
+    # Load checkpoint state dict. Extract the fitted model weights
+    model_state_dict = model.state_dict()
+    new_state_dict = {k: v for k, v in checkpoint["state_dict"].items() if k in model_state_dict.keys()}
+    # Overwrite the pretrained model weights to the current model
+    model_state_dict.update(new_state_dict)
+    model.load_state_dict(model_state_dict)
+    # Load the optimizer model
+    optimizer.load_state_dict(checkpoint["optimizer"])
+    print("Loaded pretrained model weights.")
+    
+    return model, checkpoint
+
+
 
 #MODEL RESULTS
 #used to get sr resolution image manually of model 
@@ -157,19 +195,22 @@ def quantization(model):
     quantizer = QAT_Quantizer(model = model, config_list =config, optimizer = optimizer)
     quantizer.compress()
     
-    #Fine tune model 
+    #Export model to get calibration config
+    torch.save(model.state_dict(), "./log/mnist_model.pth")
+
+    #Fine tuning will be done manually
+    """#Fine tune model 
     for epoch in range(3):
         retrain(model, model_param)
     
-    #Export model to get calibration config
-    torch.save(model.state_dict(), "./log/mnist_model.pth")
+    
     model_path = "./log/mnist_model.pth"
     calibration_path = "./log/mnist_calibration.pth"
     calibration_config = quantizer.export_model(model_path, calibration_path)
     
     #speedup model
-    model = ModelSpeedupTensorRT(model, model_param["input_size"], config=calibration_config, batchsize=32)
-    model.compress()
+    #model = ModelSpeedupTensorRT(model, model_param["input_size"], config=calibration_config, batchsize=32)
+    #model.compress()"""
     return model
 
 #distills model
@@ -204,8 +245,8 @@ def distillation(model_t, model_s):
 #takes in onnx model outputs optimized onnx model
 if __name__ == "__main__":
     #Get Global Params and get param from user
-    operation = 'manual'
-    isSave = False
+    operation = 'prune'
+    isSave = True
     
     optimization_param = { 
         'optim function':'',
@@ -215,13 +256,12 @@ if __name__ == "__main__":
     model_param = {
         'device': "cpu",
         'scale':2,
-        'input_size':[1,3,64,64]
+        'input_size':[64,1,9,9]
         }
     
-    #import model
-    #model = rdn(model_param["scale"], pretrained=True).to(model_param["device"])
-    model = SRCNN()
-    model.load_state_dict(torch.load("./srcnn_x4.pth"))
+    #Load pretrained model
+    model, checkpoint = loadModel(SRCNN())
+    #model.load_state_dict(torch.load("./SRCNN-PyTorch/results/pretrained_models/srcnn_x2-T91-7d6e0623.pth.tar"))
 
     #if statement for each model optimization to apply to model
     if operation == "prune":
@@ -238,10 +278,17 @@ if __name__ == "__main__":
     elif operation == "manual":
         #model.load_state_dict(torch.load("./model_save/model.pt"))
         manual(model, model_param)
-
+    elif operation == "export":
+        exportOnnx(model, model_param)
+    
     #save optimized model as onnx
     if isSave == True:
-        torch.save(model.state_dict(), "./model_save/model.pt") 
-        exportOnnx(model, model_param)
-
+       #torch.save(model.state_dict(), "./model_save/model.pt")
+        samples_dir = os.path.join("samples", config.exp_name) 
+        torch.save({"epoch": checkpoint["epoch"],
+                    "best_psnr": checkpoint["best_psnr"],
+                    "best_ssim": checkpoint["best_ssim"],
+                    "state_dict": model.state_dict(),
+                    "optimizer": checkpoint["optimizer"]},
+                    os.path.join(samples_dir, f"epoch_{checkpoint["epoch"]}.pth.tar"))
     print("DONE")
