@@ -198,5 +198,5 @@ if __name__ == "__main__":
                     'best_ssim': 0.0,
                     "state_dict": model.state_dict(),
                     "optimizer": checkpoint["optimizer"]},
-                    os.path.join("optimize_model", "optimize.pth.tar"))
+                    os.path.join("optimize_model/pytorch", "optimize.pth.tar"))
     print("DONE")

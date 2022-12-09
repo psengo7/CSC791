@@ -10,15 +10,13 @@
 * save model to onnx using optimize.py
 
 # TODO
-* Test pruning method
-* Finish results method
-* Move dataset download location for dataloader to be user specified
 
 # Things Tried:
 REAL-ERSGAN 
 * L1Norm pruning (failed due to taking too long 1+ day)
 * Level Pruning (Failed as program stated there is no mask - might be due to issues with nni wrapping objects)
 * RDN (64, 128, 3, 3)
+* RDN - caused bluing effect where images appeared with blue tint. 
 
 # Model Testing: 
 * run original model and see if super resolution actually occurs
