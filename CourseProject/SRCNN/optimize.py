@@ -1,52 +1,30 @@
 #torch imports
 import torch
 from torch import nn
-from torch.utils.data import DataLoader
-from torchvision.utils import save_image
-import torchvision
 import torch.nn.functional as F
-from torch.optim import SGD
-import torch.optim as optim
-from torchvision import datasets, transforms
-#nni imports
-from nni.algorithms.compression.v2.pytorch.pruning.basic_pruner import LevelPruner
-from nni.algorithms.compression.pytorch.quantization import QAT_Quantizer
-from nni.compression.pytorch import ModelSpeedup
-#from nni.compression.pytorch.quantization_speedup import ModelSpeedupTensorRT
-#etc
-from copy import deepcopy
-import time 
-import onnx 
-import sys
-import numpy as np
-from onnx2torch import convert
-import cv2
-from torchmetrics import PeakSignalNoiseRatio
-from torchsr.datasets import Div2K
-from basicsr.archs.rrdbnet_arch import RRDBNet
-from torchsr.models import rdn
-from model import SRCNN
-#https://github.com/Coloquinte/torchSR
-#train method
-import os
-import shutil
-import time
-from enum import Enum
-
-import torch
-from torch import nn
-from torch import optim
 from torch.cuda import amp
-from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 
-import config
-from dataset import CUDAPrefetcher, TrainValidImageDataset, TestImageDataset
-from image_quality_assessment import PSNR, SSIM
+#nni imports
+from nni.algorithms.compression.v2.pytorch.pruning.basic_pruner import LevelPruner, L1NormPruner, FPGMPruner, L2NormPruner
+from nni.algorithms.compression.pytorch.quantization import LsqQuantizer, DoReFaQuantizer, BNNQuantizer
+from nni.compression.pytorch import ModelSpeedup
+#from nni.compression.pytorch.quantization_speedup import ModelSpeedupTensorRT
+
+#etc
+from copy import deepcopy
+import os
 from model import SRCNN
+from train import train, load_dataset, define_loss, define_optimizer
+import config
+import cv2
+import numpy as np
+import imgproc
+from image_quality_assessment import PSNR, SSIM
+from natsort import natsorted
 
 #HELPER METHODS
-def exportOnnx(model, model_param):
+def exportOnnx(model, model_param, optimization_param):
     #set model to inference mode
     model.eval()
     #create dummy input variable
@@ -55,12 +33,13 @@ def exportOnnx(model, model_param):
     #convert model to onnx
     torch.onnx.export(model,
                       x,
-                      "./optimize_model/onnx/optimized_model.onnx",
+                      "./optimize_model/onnx/"+optimization_param['output model name']+ ".onnx",
                       do_constant_folding= True,
-                      opset_version = 9,
+                      opset_version = 11,
                       input_names = ['input'],
                       output_names = ['output'],
                     )
+    print("export finished")
     
 def loadModel(model, model_path):
     #Load checkpoint model
@@ -75,15 +54,152 @@ def loadModel(model, model_path):
     print("Loaded pretrained model weights.")
     return model, checkpoint
 
+def trainHelper(model, epoch, model_param, optimization_param):
+    optimizer = define_optimizer(model)
+    train_prefetcher, test_prefetcher = load_dataset()
+    pixel_criterion = define_loss()
+    scaler = amp.GradScaler()
+    writer = SummaryWriter(os.path.join("samples", "logs", "SRCNN_x2"))
+
+    train(model = model, train_prefetcher= train_prefetcher, pixel_criterion= pixel_criterion, optimizer=optimizer,  epoch = epoch, scaler=scaler, writer=writer)
+    
+def test(model, model_param, optimization_param):
+    # Initialize the super-resolution model
+    model = model.to(device=model_param['device'], memory_format=torch.channels_last)
+    print("Build SRCNN model successfully.")
+
+
+    # Create a folder of super-resolution experiment results
+    results_dir = os.path.join("results", "test", config.exp_name)
+    if not os.path.exists(results_dir):
+        os.makedirs(results_dir)
+
+    # Start the verification mode of the model.
+    model.eval()
+    # Turn on half-precision inference.
+    model.half()
+
+    # Initialize the sharpness evaluation function
+    psnr = PSNR(config.upscale_factor, False)
+    ssim = SSIM(config.upscale_factor, False)
+
+    # Set the sharpness evaluation function calculation device to the specified model
+    psnr = psnr.to(device=model_param['device'], memory_format=torch.channels_last, non_blocking=True)
+    ssim = ssim.to(device=model_param['device'], memory_format=torch.channels_last, non_blocking=True)
+
+    # Initialize IQA metrics
+    psnr_metrics = 0.0
+    ssim_metrics = 0.0
+    lr_dir = f"./data/Set5/GTmod12"
+    sr_dir = f"./results/test/{config.exp_name}"
+    hr_dir = f"./data/Set5/GTmod12"
+
+    # Get a list of test image file names.
+    file_names = natsorted(os.listdir(lr_dir))
+    # Get the number of test image files.
+    total_files = len(file_names)
+
+    for index in range(total_files):
+        lr_image_path = os.path.join(lr_dir, file_names[index])
+        sr_image_path = os.path.join(sr_dir, file_names[index])
+        hr_image_path = os.path.join(hr_dir, file_names[index])
+
+        print(f"Processing `{os.path.abspath(lr_image_path)}`...")
+        # Read LR image and HR image
+        lr_image = cv2.imread(lr_image_path, cv2.IMREAD_UNCHANGED).astype(np.float32) / 255.0
+        hr_image = cv2.imread(hr_image_path, cv2.IMREAD_UNCHANGED).astype(np.float32) / 255.0
+
+        lr_image = imgproc.image_resize(lr_image, 1 / config.upscale_factor)
+        lr_image = imgproc.image_resize(lr_image, config.upscale_factor)
+
+        # Get Y channel image data
+        lr_y_image = imgproc.bgr2ycbcr(lr_image, True)
+        hr_y_image = imgproc.bgr2ycbcr(hr_image, True)
+
+        # Get Cb Cr image data from hr image
+        hr_ycbcr_image = imgproc.bgr2ycbcr(hr_image, False)
+        _, hr_cb_image, hr_cr_image = cv2.split(hr_ycbcr_image)
+
+        # Convert RGB channel image format data to Tensor channel image format data
+        lr_y_tensor = imgproc.image2tensor(lr_y_image, False, True).unsqueeze_(0)
+        hr_y_tensor = imgproc.image2tensor(hr_y_image, False, True).unsqueeze_(0)
+
+        # Transfer Tensor channel image format data to CUDA device
+        lr_y_tensor = lr_y_tensor.to(device=model_param['device'], memory_format=torch.channels_last, non_blocking=True)
+        hr_y_tensor = hr_y_tensor.to(device=model_param['device'], memory_format=torch.channels_last, non_blocking=True)
+
+        # Only reconstruct the Y channel image data.
+        with torch.no_grad():
+            sr_y_tensor = model(lr_y_tensor).clamp_(0, 1.0)
+
+        # Save image
+        sr_y_image = imgproc.tensor2image(sr_y_tensor, False, True)
+        sr_y_image = sr_y_image.astype(np.float32) / 255.0
+        sr_ycbcr_image = cv2.merge([sr_y_image, hr_cb_image, hr_cr_image])
+        sr_image = imgproc.ycbcr2bgr(sr_ycbcr_image)
+        cv2.imwrite(sr_image_path, sr_image * 255.0)
+
+        # Cal IQA metrics
+        psnr_metrics += psnr(sr_y_tensor, hr_y_tensor).item()
+        ssim_metrics += ssim(sr_y_tensor, hr_y_tensor).item()
+
+    # Calculate the average value of the sharpness evaluation index,
+    # and all index range values are cut according to the following values
+    # PSNR range value is 0~100
+    # SSIM range value is 0~1
+    avg_ssim = 1 if ssim_metrics / total_files > 1 else ssim_metrics / total_files
+    avg_psnr = 100 if psnr_metrics / total_files > 100 else psnr_metrics / total_files
+
+    print(f"PSNR: {avg_psnr:4.2f} dB\n"
+          f"SSIM: {avg_ssim:4.4f} u")
+
+
+def inference(model, model_param, optimization_param):
+    # Initialize the model
+    model = model.to(memory_format=torch.channels_last, device=model_param['device'])
+
+    # Start the verification mode of the model.
+    model.eval()
+
+    # Read LR image and HR image
+    lr_image = cv2.imread("./figure/butterfly_lr.png", cv2.IMREAD_UNCHANGED).astype(np.float32) / 255.0
+
+    # Get Y channel image data
+    lr_y_image = imgproc.bgr2ycbcr(lr_image, True)
+
+    # Get Cb Cr image data from hr image
+    lr_ycbcr_image = imgproc.bgr2ycbcr(lr_image, False)
+    _, lr_cb_image, lr_cr_image = cv2.split(lr_ycbcr_image)
+
+    # Convert RGB channel image format data to Tensor channel image format data
+    lr_y_tensor = imgproc.image2tensor(lr_y_image, False, False).unsqueeze_(0)
+
+    # Transfer Tensor channel image format data to CUDA device
+    lr_y_tensor = lr_y_tensor.to(device=model_param['device'], memory_format=torch.channels_last, non_blocking=True)
+
+    # Only reconstruct the Y channel image data.
+    with torch.no_grad():
+        sr_y_tensor = model(lr_y_tensor).clamp_(0, 1.0)
+
+    # Save image
+    sr_y_image = imgproc.tensor2image(sr_y_tensor, False, False)
+    sr_y_image = sr_y_image.astype(np.float32) / 255.0
+    sr_ycbcr_image = cv2.merge([sr_y_image, lr_cb_image, lr_cr_image])
+    sr_image = imgproc.ycbcr2bgr(sr_ycbcr_image)
+    cv2.imwrite("./figure/butterfly_sr_"+optimization_param["output model name"] + ".png", sr_image * 255.0)
+
+    print(f"SR image save to ./figure/butterfly_sr_"+optimization_param["output model name"] + ".png")
+
+
 
 #MODEL OPTIMIZATIONS
 #prunes model
-def prune(model, model_param):
+def prune(model, model_param, optimization_param):
     config_list = [{
         'sparsity_per_layer': 0.1,
         'op_types': ['Conv2d']
     }]
-    pruner = LevelPruner(model = model, config_list =config_list )
+    pruner = optimization_param['optim function'](model = model, config_list = optimization_param['config'] )
     masked_model, masks = pruner.compress()
     pruner._unwrap_model()
     ModelSpeedup(model, torch.rand(model_param["input_size"]).to(model_param["device"]), masks).speedup_model()
@@ -91,7 +207,7 @@ def prune(model, model_param):
     
         
 #quantizes model 
-def quantization(model):
+def quantization(model, model_param, optimization_param):
     #config
     config = [{
             'quant_types': ['weight'],
@@ -100,19 +216,15 @@ def quantization(model):
     }]
 
     #Quantize model
-    optimizer = torch.optim.SGD(model.parameters(), lr = 1e-3)
-    quantizer = QAT_Quantizer(model = model, config_list =config, optimizer = optimizer)
+    optimizer = define_optimizer(model)
+    quantizer = optimization_param["optim function"](model = model, config_list = optimization_param["config"], optimizer = optimizer)
     quantizer.compress()
     
-    #Export model to get calibration config
-    torch.save(model.state_dict(), "./log/mnist_model.pth")
-
-    #Fine tuning will be done manually
-    """#Fine tune model 
-    for epoch in range(3):
-        retrain(model, model_param)
+    #Fine tune model 
+    #trainHelper(model, epoch= 5)
     
     
+    """
     model_path = "./log/mnist_model.pth"
     calibration_path = "./log/mnist_calibration.pth"
     calibration_config = quantizer.export_model(model_path, calibration_path)
@@ -122,81 +234,77 @@ def quantization(model):
     #model.compress()"""
     return model
 
-#distills model
-def distillation(model_t, model_s):
-    #save pruned model as student model
-    criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model_s.parameters(), lr = 1e-3)
-
-    #train student model with teacher model
-    for batch_idx, (data, target) in enumerate(train_loader):
-        data, target = data, target
-        #data shape: 64, 1, 28, 28
-
-        #compute prediction error
-        y_s = model_s(data)
-        y_t = model_t(data)
-        loss_cri = F.cross_entropy(y_s, target)
-
-        # compute loss and backpropogation
-        kd_T = 4 #temperature for knowledge distillation
-        p_s = F.log_softmax(y_s/kd_T, dim=1)
-        p_t = F.softmax(y_t/kd_T, dim=1)
-        loss_kd = F.kl_div(p_s, p_t, size_average=False) * (kd_T**2) / y_s.shape[0]
-
-        # total loss
-        loss = loss_cri + loss_kd
-        optimizer.zero_grad()
-        loss.backward()
-    return model_s
-
 
 #takes in onnx model outputs optimized onnx model
 if __name__ == "__main__":
     #Get Global Params and get param from user
-    operation = 'export'
+    operation = ''
     isSave = True
     
-    optimization_param = { 
-        'optim function':'',
-        'config': ''
-    }
-
+    #Model specific parameters (in case you want to switch models)
     model_param = {
-        'device': "cpu",
+        'model_path': "./optimize_model/pytorch/pretrained.pth.tar",
+        'device': "cuda",
         'scale':2,
         'input_size':[1,1,9,9]
         }
+    
+    #quantizer
+    """config = [{
+            'quant_types': ['weight'],
+            'quant_bits': {'weight': 2},
+            'op_types': ['Conv2d']
+    }]"""
 
-    model_path = "./results/pretrained_models/srcnn_x2-T91-7d6e0623.pth.tar"
-    #model_path = "./samples/SRCNN_x2/epoch_0.pth.tar"
+    #prune
+    """'config': [{
+            'sparsity_per_layer': 0.1,
+            'op_types': ['Conv2d']
+            }]"""
+
+    #Optimization specific parameters
+    optimization_param = {
+        'output model name': 'pretrained',
+        'optim function':FPGMPruner,
+        'config': [{
+            'sparsity_per_layer': 0.1,
+            'op_types': ['Conv2d']
+            }]
+    }
     
     #Load pretrained model
-    model, checkpoint = loadModel(SRCNN(), model_path)
-    #model.load_state_dict(torch.load("./SRCNN-PyTorch/results/pretrained_models/srcnn_x2-T91-7d6e0623.pth.tar"))
-
+    model, checkpoint = loadModel(SRCNN(), model_param["model_path"])
+    model.to(model_param["device"])
+    
     #if statement for each model optimization to apply to model
     if operation == "prune":
-        model = prune(model, model_param)
+        model = prune(model, model_param, optimization_param)
     elif operation == "quantization":
-        model = quantization(model)
-    elif operation == "distillation":
-        model_t = deepcopy(model)
-        model.load_state_dict(torch.load("./model_save/model.pt"))
-        model = distillation(model_t, model)
-    elif operation == "export":
-        exportOnnx(model, model_param)
+        model = quantization(model, model_param, optimization_param)
+        
+    #post train model
+    #print("POST TRAINING:")
+    #trainHelper(model, epoch = 1, model_param, optimization_param)
+
+    #export model as onnx model
+    print("\nEXPORT ONNX:")
+    exportOnnx(model, model_param, optimization_param)
+
+    #gives inference for low resolution butterfly image
+    print("\nMODEL INFERENCE:")
+    inference(model, model_param, optimization_param)
     
-    #save optimized model as onnx
+    #Test/get PSNR for test set
+    print("\nTEST:")
+    test(model, model_param, optimization_param)
+
+    #save optimized model as pth file
     if isSave == True:
-       #torch.save(model.state_dict(), "./model_save/model.pt")
-        samples_dir = os.path.join("samples", config.exp_name)
-        #TODO: may have to change checkpoint epoch to 0 or reduced 
-        epoch = checkpoint["epoch"]
         torch.save({"epoch": checkpoint["epoch"],
                     "best_psnr": checkpoint["best_psnr"],
                     'best_ssim': 0.0,
                     "state_dict": model.state_dict(),
                     "optimizer": checkpoint["optimizer"]},
-                    os.path.join("optimize_model/pytorch", "optimize.pth.tar"))
+                    os.path.join("optimize_model/pytorch", optimization_param['output model name'] + ".pth.tar"))
+    
     print("DONE")
