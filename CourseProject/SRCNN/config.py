@@ -43,7 +43,7 @@ if mode == "train":
     num_workers = 4
 
     # Incremental training and migration training
-    resume = "optimize_model/optimize.pth.tar"
+    resume = "../optimize_model/optimize.pth.tar"
 
     # Total number of epochs
     epochs = 2

@@ -3,11 +3,51 @@
 
 
 # HOW TO RUN PROGRAM: 
-* use optimization to take pre-trained model and apply pruning or quantization: 
-* retrain the new model using SRCNN train method
-* test the model using SRCNN Test method
-* try inference using SRCNN inference method
-* save model to onnx using optimize.py
+1. OPTIMIZE MODEL:
+    1. In optimize.py change following variables:
+        * "optimization_param" to the optimizations, configs, and output name you want
+        * "model path" to path of model to optimize
+    2. run "python optimize.py" - output is in optimize_model
+2. POST TRAIN MODEL: 
+    1. In SRCNN/config.py change following variable values to: 
+        * "resume" to relative path of optimized model. 
+        * "mode" to train.
+        * "epoch" to however epochs you want model to run.  
+    2. cd into SRCNN/ and run "python train.py"
+    2. Output of final model is in SRCNN/samples/SRCNN_x2/epoch_xx.pth.tar
+    1. Move the post trained model to optimize_model folder and rename it to whatever you want
+3. TEST MODEL(PSNR): 
+    1. In SRCNN/config.py change following variable values to : 
+        * "mode" to test
+        * "model_path" to relative path of post trained model
+    2. cd into SRCNN/ and run "python test.py"
+    3. PSNR value should be on command line.  
+4. VISUALIZE MODEL RESULT:
+    1. cd to SRCNN/
+    2. run python ./inference.py --inputs_path <low res png path> --output_path <path to output high res png> --weights_path <relative path to model weight>
+        * note SRCNN/figure/ folder has some test images to try or you can use an image in the SRCNN/data/ folder. 
+        * Ex: "python ./inference.py --inputs_path ./figure/butterfly_lr.png --output_path ./figure/butterfly_sr.png --weights_path ./optimize_model/pytorch/pretrained.pth.tar"
+5. EXPORT MODEL AS ONNX:
+    1. in optimize.py change follow: 
+        * model path to path of .pth.tar model you want to convert to onnx
+        * output model name you want to call file
+        * operation to "export"
+    2. run "python optimize.py"
+    3. onnx model should be in optimize_model/onnx/ folder.  
+6. SPEEDUP TEST: 
+    1. move exported onnx model to xgen using xgen speed test steps
+
+# Models 
+
+In optimize_model folder there are several models from running this experiment. The following models are seen below: 
+
+* pretrained - gives the base pretrained model for SCRNN
+* prune_level_s<x> - gives pruned model using level pruning with sparsity of x
+    * only sparsity .4 and below worked anything above cause size mismatch
+* prune_l1_s<x> - gives pruned model using l1NormPruner with sparsity of x
+* pruned_fpgm_s<x> - gives pruned model using FPGMPruner with sparsity of x
+* quant_qat_iw8 - gives quantized model using QATQuantier with input and weight precision 8
+* quant_bnn_iw8 - gives quantized model using BNNQuantier with input and weight precision 8
 
 # TODO
 
