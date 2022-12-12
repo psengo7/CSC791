@@ -1,0 +1,6 @@
+torch
+tensorboard
+nni
+opencv-python
+torchvision
+natsort

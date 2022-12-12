@@ -1,4 +1,4 @@
-from nni.algorithms.compression.v2.pytorch.pruning.basic_pruner import LevelPruner, L1NormPruner, FPGMPruner, L2NormPruner
+from nni.algorithms.compression.v2.pytorch.pruning.basic_pruner import LevelPruner, L1NormPruner, FPGMPruner
 from nni.algorithms.compression.pytorch.quantization import LsqQuantizer, DoReFaQuantizer, BNNQuantizer
 
 inference_param = {
@@ -13,19 +13,6 @@ model_param = {
     'input_size':[1,1,9,9]
 }
     
-
-optimization_paramsTest = [
-    {
-        'operation':'prune',
-        'output file prefix': 'prune_level_s1',
-        'optim function':LevelPruner,
-        'config': [{
-            'sparsity_per_layer': 0.1,
-            'op_types': ['Conv2d']
-            }]
-    }
-]
-
 
 #Each element in the list gives the optimization you want to perform on the base pretrained SRCNN model.
 optimization_params = [
