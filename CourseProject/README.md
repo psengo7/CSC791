@@ -48,10 +48,3 @@ In Results folder the following prefixs are listed below:
 * quant_lsq_w<x> - gives quantized model using LsqQuantizer with weight precision x
 * quant_bnn_w<x> - gives quantized model using BNNQuantier with weight precision x
 * quant_drf_w<x> - gives quantized model using DoReFaQuantier with weight precision x
-
-
-asdf
-test1 - l1norm = .1 + DoReFa =8
-test5 - l1norm = .5 + DoReFa =8
-test9 -l1norm = .9 + DoReFa =8
-test 11 - level =.1 + lsq = 8
