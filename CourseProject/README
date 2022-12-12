@@ -50,6 +50,8 @@ In optimize_model folder there are several models from running this experiment. 
 * quant_bnn_iw8 - gives quantized model using BNNQuantier with input and weight precision 8
 
 # TODO
+* update directory structure/clean up code - try to move optimize.py function, figure, and optimized model folder out of SRCNN 
+
 
 # Things Tried:
 REAL-ERSGAN 
@@ -65,3 +67,13 @@ REAL-ERSGAN
 
 
 https://github.com/Lornatang/SRCNN-PyTorch
+
+
+
+# STEPS
+1. download pretrained model in SRCNN github rename to "pretrained.pth.tar" and send to Results/Optimized_models/Pytorch/
+2. download lr_butterfly.png image into Results/Inference_Image/
+3. follow instructions to download data
+
+
+# look at how SRCNN github sets up 

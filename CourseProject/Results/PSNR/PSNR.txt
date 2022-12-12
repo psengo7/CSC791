@@ -1,0 +1,23 @@
+
+ PSNR: 36.72 dB - pretrained
+ PSNR: 36.47 dB - prune_level_s1
+ PSNR: 29.21 dB - prune_level_s3
+ PSNR: 14.70 dB - prune_level_s5
+ PSNR: 7.58 dB - prune_level_s7
+ PSNR: 6.80 dB - prune_level_s9
+ PSNR: 6.67 dB - prune_fpgm_s1
+ PSNR: 6.59 dB - prune_fpgm_s3
+ PSNR: 6.60 dB - prune_fpgm_s5
+ PSNR: 6.59 dB - prune_fpgm_s7
+ PSNR: 6.58 dB - prune_fpgm_s9
+ PSNR: 8.61 dB - prune_l1_s1
+ PSNR: 6.58 dB - prune_l1_s3
+ PSNR: 6.58 dB - prune_l1_s5
+ PSNR: 6.59 dB - prune_l1_s7
+ PSNR: 6.56 dB - prune_l1_s9
+ PSNR: 35.98 dB - quant_lsq_w8
+ PSNR: 15.47 dB - quant_lsq_w2
+ PSNR: 4.64 dB - quant_bnn_w8
+ PSNR: 4.64 dB - quant_bnn_w2
+ PSNR: 4.77 dB - quant_drf_w8
+ PSNR: 4.41 dB - quant_drf_w2
